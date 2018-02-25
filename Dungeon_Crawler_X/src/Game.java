@@ -36,7 +36,7 @@ public class Game extends Canvas implements Runnable{
 		handler = new Handler();
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/Test2.png");
-		sprite_sheet = loader.loadImage("/Blocks.png");
+		sprite_sheet = loader.loadImage("/BlocksNew1.png");
 		ss = new SpriteSheet(sprite_sheet);
 		floor = ss.grabImage(1, 1, 32, 32);
 		loadLevel(level);
