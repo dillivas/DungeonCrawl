@@ -27,12 +27,12 @@ public class Game extends Canvas implements Runnable{
 	 * IMPORTAINT: this will need to be edited so that we can add objetcs in based on map layout later
 	 */
 	public Game() {
-		
+		//this.handler = handler;
 		Render.load();
+		handler = new Handler();
 		
 		//Game Engine Set up
 		new Window(WIDTH, HEIGHT, "Dungeon Crawler", this);
-		handler = new Handler();
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/Test2.png");
 		sprite_sheet = loader.loadImage("/BlocksNew1.png");

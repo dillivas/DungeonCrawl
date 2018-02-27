@@ -5,6 +5,11 @@ public class Launch {
 	public static boolean start = false;
 	public static Game currentGame;
 	
+	public Launch() {
+		currentGame = new Game();
+		checkForRestart();
+	}
+	
 	public static void checkForRestart(){
 		while(true) {
 			if(restart == true) {
@@ -16,7 +21,6 @@ public class Launch {
 	}
 	
 	public static void main(String args[]) {
-		currentGame = new Game();
-		checkForRestart();
+		new Launch();
 	}
 }
