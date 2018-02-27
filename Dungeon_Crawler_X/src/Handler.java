@@ -4,6 +4,9 @@
  * Class: Handler        						*
  *             									*
  * This class handles all of the game objects 	*
+ * 												*
+ * This function also handles all user inputs 	*
+ * and stores them for later use in the game.	*
  ************************************************/
 
 

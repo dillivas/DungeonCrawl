@@ -7,22 +7,22 @@ public class GameScreen{
 	Handler handler;
 
 	public char lastKey = 'd';
-	public static boolean newGame = false;
-	public static boolean start = false;
+	//public static boolean newGame = false;
+	//public static boolean start = false;
 
 
 	public void startScreen(Graphics g) {
-		if (start == false) {
+		if (Launch.start == false) {
 			g.drawImage(Render.gameStart,0,0,637,485, null);
 			if(KeyInput.space == true) {
-				start = true;
+				Launch.start = true;
 			}
 
 			if(KeyInput.up == true) {
 				g.drawImage(Render.gameStart,0,0,637,485, null);
 
 				if(KeyInput.space == true) {
-					start = true;
+					Launch.start = true;
 				}
 				//g.fillRect(x, y, 32, 32);
 			}
@@ -59,7 +59,10 @@ public class GameScreen{
 			if (KeyInput.down == true){
 				g.drawImage(Render.pauseRestart,0,0,637,485, null);
 				//newGame
-				//g.fillRect(x, y, 32, 32);
+				
+				if(KeyInput.space == true) {
+					Launch.restart = true;
+				}
 			}
 			//g.fillRect(x, y, 32, 32);
 		}
@@ -82,12 +85,11 @@ public class GameScreen{
 			if (KeyInput.down == true){
 				g.drawImage(Render.gameRestart,0,0,637,485, null);
 				//newGame
-
+				if(KeyInput.space == true) {
+					Launch.restart = true;
+				}
 				//g.fillRect(x, y, 32, 32);s
-			}
-			{
 			}
 		}
 	}
 }
-

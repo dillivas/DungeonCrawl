@@ -11,11 +11,14 @@
 //Ctrl + shift + o to auto add imports
 //Imports List
 import java.awt.Canvas;
+import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class Window extends Canvas{
  
+	JFrame frame;
+	
 	 //Add generated serial version ID
 	 //unsure what this does
 	 private static final long serialVersionUID = 354447516600833510L;
@@ -26,11 +29,11 @@ public class Window extends Canvas{
 	  * @param width of window
 	  * @param height of window
 	  * @param title of window
-	  * @param game be displayed
+	  * @param launch be displayed
 	  */
 	 public Window (int width, int height, String title, Game game) {
 		  System.out.println("Working");
-		  JFrame frame = new JFrame(title);
+		  frame = new JFrame(title);
 		  
 		  frame.setPreferredSize(new Dimension(width, height));
 		  frame.setMaximumSize(new Dimension(width, height));
@@ -43,6 +46,13 @@ public class Window extends Canvas{
 		  frame.add(game);
 		  frame.setVisible(true);
 		  game.start();
-		  
+	 }
+	 
+	 public void addGame(Game game) {
+		 frame.add(game);
+	 }
+	 
+	 public void removeGame(Game game) {
+		 frame.remove(game);
 	 }
 }

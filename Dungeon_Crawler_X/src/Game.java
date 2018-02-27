@@ -1,5 +1,4 @@
 
-
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -91,7 +90,7 @@ public class Game extends Canvas implements Runnable{
 			while(delta >=1){
 				delta--;
 				updates++;
-				if (HUD.HEALTH != 0 && KeyInput.pause == false && GameScreen.start == true) {
+				if (HUD.HEALTH != 0 && KeyInput.pause == false && Launch.start == true) {
   					tick();
   				}	
 			}
@@ -200,14 +199,5 @@ public class Game extends Canvas implements Runnable{
 				//////////////////////////////////////////////////////////
 			}
 		}
-	}
-	
-
-
-	/**
-	 * Main method to create new game
-	 */
-	public static void main(String args[]) {
-		new Game();
 	}
 }
