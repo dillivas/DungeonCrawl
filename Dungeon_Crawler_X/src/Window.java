@@ -1,23 +1,17 @@
-/****************************************************************************
- * Written By: William Mckeever            									*
- * Date: 1/28/2018               											*
- * Class: Window               												*
- *                    														*
- * Source Assistance: https://www.youtube.com/watch?v=1gir2R7G9ws&t=661s 	*
- *                    														*
- * The Class controls the game window          								*
- ****************************************************************************/
-
-//Ctrl + shift + o to auto add imports
-//Imports List
 import java.awt.Canvas;
-import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
+/**
+ * This Class controls the game window
+ * @author William
+ * date 1/28/2018
+ * class Window 
+ */
 public class Window extends Canvas{
  
-	JFrame frame;
+	//Store JFrame for rendering the window
+	private JFrame frame;
 	
 	 //Add generated serial version ID
 	 //unsure what this does
@@ -48,10 +42,20 @@ public class Window extends Canvas{
 		  game.start();
 	 }
 	 
+	 /**
+	  * Add the game to the frame.
+	  * Not currently used.
+	  * @param game
+	  */
 	 public void addGame(Game game) {
 		 frame.add(game);
 	 }
 	 
+	 /**
+	  * Remove the game from the frame.
+	  * Not currently used.
+	  * @param game
+	  */
 	 public void removeGame(Game game) {
 		 frame.remove(game);
 	 }

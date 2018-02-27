@@ -1,55 +1,63 @@
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+/**
+ * Function controls the game setup and running.
+ * @author William
+ * date 2/27/2018
+ * class Game
+ */
 public class Game extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 665215786302647934L;
 
+	//Window Size settings
 	public static final int WIDTH = 640, HEIGHT = 512;
 	
+	/**
+	 * Variables to hold all of the important game functions
+	 * Such as the handler, thread, player hub, running status,
+	 * and images and sprite sheets to load in at start of game.
+	 */
 	private boolean running = false;
 	private Handler handler;
 	private Thread thread;
 	private HUD hud;
 	private GameScreen gameScreen;
 	private SpriteSheet ss;
-	private BufferedImage sprite_sheet = null;
+	private BufferedImage spriteSheet = null;
 	private BufferedImage floor = null;
 	private BufferedImage level = null;
 
+
 	/**
-	 * Game Constructor
-	 * IMPORTAINT: this will need to be edited so that we can add objetcs in based on map layout later
+	 * Game object constructed
 	 */
 	public Game() {
-		//this.handler = handler;
+		
+		//The order that these load in is very important
 		Render.load();
 		handler = new Handler();
-		
-		//Game Engine Set up
 		new Window(WIDTH, HEIGHT, "Dungeon Crawler", this);
 		BufferedImageLoader loader = new BufferedImageLoader();
 		level = loader.loadImage("/Test2.png");
-		sprite_sheet = loader.loadImage("/BlocksNew1.png");
-		ss = new SpriteSheet(sprite_sheet);
+		spriteSheet = loader.loadImage("/BlocksNew1.png");
+		ss = new SpriteSheet(spriteSheet);
 		floor = ss.grabImage(1, 1, 32, 32);
 		loadLevel(level);
 		hud = new HUD();
 		gameScreen = new GameScreen();
-		
 		this.addKeyListener(new KeyInput(handler, ss));
 		
-		
+		//Start Game
 		start();
 	}
 
 	/**
-	 * Start Game
+	 * Start Game and thread setup
 	 */
 	public synchronized void start() {
 		thread = new Thread(this);
@@ -82,20 +90,21 @@ public class Game extends Canvas implements Runnable{
 		long timer = System.currentTimeMillis();
 		int frames = 0;
 		int updates = 0;
-		while(running)
-		{
+		while(running){
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while(delta >=1){
 				delta--;
 				updates++;
-				if (HUD.HEALTH != 0 && KeyInput.pause == false && Launch.start == true) {
+				//Used for pause and death screen
+				if ((HUD.HEALTH != 0) && (KeyInput.pause == false) && (Launch.start == true)) {
   					tick();
   				}	
 			}
-			if(running)
+			if(running) {
 				render();
+			}
 			frames++;
 
 			if(System.currentTimeMillis() - timer > 1000){
@@ -106,19 +115,22 @@ public class Game extends Canvas implements Runnable{
 			
 			}
 		}
+		//Stop the Game
 		stop();
 	}
 
+	/**
+	 * Run next update of game objects based on the game loop
+	 */
 	private void tick() {
-		
 		handler.tick();
 		hud.tick();
 	}
 
+
 	/**
 	 * Controls what renders on the screen
 	 */
-	//used to be private
 	public void render() {
 		BufferStrategy bs = this.getBufferStrategy();
 		if(bs == null) {
@@ -127,6 +139,8 @@ public class Game extends Canvas implements Runnable{
 		}
 
 		Graphics g = bs.getDrawGraphics();
+		
+		//Code between these comment lines controls what we load into the window
 		///////////////////////////////////////
 		
 		for(int xx = 0; xx < (30*72); xx += 32) {
@@ -145,12 +159,6 @@ public class Game extends Canvas implements Runnable{
 	}
 	
 	/**
-	 * Double buffer to get ride if screen flicker.
-	 * @param g
-	 */
-	
-	
-	/**
 	 * Method to make sure player stays within room
 	 * @param var player movement
 	 * @param min room size
@@ -158,24 +166,23 @@ public class Game extends Canvas implements Runnable{
 	 * @return player position
 	 */
 	public static int clamp(int var, int min, int max) {
-		if(var >= max)
-			return var = max;
-		else if(var <= min)
-			return var = min;
-		else 
+		if(var >= max) {
+			var = max;
 			return var;
+		}else if(var <= min) {
+			var = min;
+			return var;
+			
+		}else {
+			return var;
+		}
 	}
 
-	public static int clampWall(int var, int min, int max) {
-		if(var >= max)
-			return var = max + 32;
-		else if(var <= min)
-			return var = min - 32;
-		else 
-			return var;
-	}
 	
-	//Loading the Level
+	/**
+	 * Load in the game level objects
+	 * @param image used for mapping the game level
+	 */
 	private void loadLevel(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -186,16 +193,21 @@ public class Game extends Canvas implements Runnable{
 				int red = (pixel >> 16) & 0xff;
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
+				//Code between lines controls what objects are rendered into the game.
 				/////////////////////////////////////////////////////////
 				//Load Level First then enemy and player
-				if(red == 0 && green == 0 && blue == 255)
+				if(red == 0 && green == 0 && blue == 255) {
 					handler.addObject(new Player(xx*32, yy*32, ID.Player,ss, handler));
-				if(red == 255 && green == 0 && blue == 0)
+				}
+				if(red == 255 && green == 0 && blue == 0) {
 					handler.addObject(new Block(xx*32, yy*32, ID.Block,ss));
-				if(red == 255 && green == 100 && blue == 0)
+				}
+				if(red == 255 && green == 100 && blue == 0) {
 					handler.addObject(new Lava(xx*32, yy*32, ID.Lava,ss));
-				if(red == 0 && green == 255 && blue == 0)
+				}
+				if(red == 0 && green == 255 && blue == 0) {
 					handler.addObject(new BasicEnemy(xx*32, yy*32, ID.Enemy,ss,handler));
+				}
 				//////////////////////////////////////////////////////////
 			}
 		}

@@ -1,20 +1,17 @@
-/********************************************************
- * Written By: William Mckeever       					*
- * Date: 1/28/2018          							*
- * Class: GameObject         							*
- *               										*
- * The Abstracr class control's all the game objects 	*
- ********************************************************/
-
-
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+/**
+ * The Abstracr class control's all the game objects
+ * @author William
+ * date 2/27/2018
+ * class GameObject
+ */
 public abstract class GameObject {
 	 
 	 //Object x and y coordinates
-	protected int x, y;
+	 protected int x, y;
 	 //Object ID
 	 protected ID id;
 	 //Objects speed / direction
@@ -28,6 +25,7 @@ public abstract class GameObject {
 	  * @param x coordinate
 	  * @param y coordinate
 	  * @param id of object
+	  * @param ss sprite image of object
 	  */
 	 public GameObject(int x, int y, ID id, SpriteSheet ss) {
 		  this.x = x;
@@ -36,6 +34,15 @@ public abstract class GameObject {
 		  this.ss =ss;
 	 }
 	 
+	 /**
+	  * Game Object constructer
+	  * @param x axis location of enemy
+	  * @param y axis location of enemy
+	  * @param speedX controls x direction movement
+	  * @param speedY controls y direction movement
+	  * @param id of object
+	  * @param ss sprite image of object
+	  */
 	 public GameObject(int x, int y, int speedX, int speedY, ID id, SpriteSheet ss) {
 		 this.x = x;
 		  this.y = y;
@@ -45,8 +52,21 @@ public abstract class GameObject {
 		  this.ss =ss;
 	}
 
-	public abstract void tick();
+	 /**
+	  * Abstract class to update the object.
+	  */
+	 public abstract void tick();
+	 
+	 /**
+	  * Abstract class to render the object sprite image.
+	  * @param graphic to render
+	  */
 	 public abstract void render(Graphics g);
+	 
+	 /**
+	  * Abstract class to get the objects hitbox.
+	  * @return object hitbox
+	  */
 	 public abstract Rectangle getBounds();
 	 
 	 /**
@@ -128,13 +148,5 @@ public abstract class GameObject {
 	 public int getSpeedY() {
 		 return speedY;
 	 }
-	 
-	 /*public boolean getRemove() {
-		 return remove;
-	 }
-	 
-	 public void setRemove(boolean remove) {
-		 this.remove  = remove;
-	 }*/
 }
 

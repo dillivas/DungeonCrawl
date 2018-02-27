@@ -1,13 +1,9 @@
-/************************************************************************************
- * Written By: William Mckeever              										*
- * Date: 1/28/2018                 													*
- * Enum: ID                  														*
- *                     												 				*
- * The Enum control's how the GameObject abstract class views the objects   		*
- ************************************************************************************/
-
-
-
+/**
+ * The Enum control's how the GameObject abstract class views the objects  
+ * @author William
+ * date 2/27/2018
+ *  enum id
+ */
 public enum ID {
 	 Player(),
 	 Block(),

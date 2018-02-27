@@ -1,23 +1,27 @@
-/********************************************
- * Written By: William Mckeever    			*
- * Date: 1/28/2018       					*
- * Class: BasicEnemy      					*
- *            								*
- * The class control's a BasicEnemy object 	*
- ********************************************/
-
-
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+/**
+ * This class controls the ghost enemy.
+ * Not yet used in game and some work on its AI is still needed.
+ * 
+ * @author William
+ * date 2/27/2018
+ * class Ghost
+ */
 public class Ghost extends GameObject{
 
-	Random rand;
-	int steps = 0;
-	public static int HEALTH = 12;
+	//Random variable for ghost movement
+	 private Random rand;
+	
+	//Ghost "steps" variable
+	private int steps = 0;
+	
+	//Ghost health
+	private static int HEALTH = 100;
 
 	/**
 	 * BasicEnemy constructor
@@ -68,8 +72,6 @@ public class Ghost extends GameObject{
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(Render.ghostImage,x,y,50,50, null);
-		//g.setColor(Color.white);
-		//g.fillOval(x, y, 32, 32);
 	}
 	public void health(Graphics g) {
 		  g.setColor(Color.gray);

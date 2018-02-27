@@ -1,28 +1,44 @@
-/********************************************
- * Written By: William Mckeever    			*
- * Date: 1/28/2018       					*
- * Class: BasicEnemy      					*
- *            								*
- * The class control's a BasicEnemy object 	*
- ********************************************/
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+/**
+ * date: 1/28/2018       					*
+ * class: BasicEnemy      					*
+ *            								*
+ * The class control's a BasicEnemy object 	*
+ * 											*
+ * @author William							*
+ */
 public class BasicEnemy extends GameObject{
 
+	/**
+	 * Variable of the Basic Enemy for its handler,
+	 * random set up for its movement, and its hp.
+	 * 
+	 */
 	 private Handler handler;
-	 Random rand = new Random();
-	 int choose = 0;
-	 int hp = 100;
+	 private Random rand = new Random();
+	 private int choose = 0;
+	 private int hp = 100;
 	
+	 /**
+	  * BasicEnemy Constructor
+	  * @param x axis location of enemy
+	  * @param y axis location of enemy
+	  * @param id of object
+	  * @param ss sprite image of object
+	  * @param handler connection for object use.
+	  */
 	public BasicEnemy(int x, int y, ID id, SpriteSheet ss, Handler handler) {
 		super(x, y, id, ss);
-		this.handler = handler;
+		this.handler=handler;
 	}
 
+	/**
+	 * Update the object on tick
+	 */
 	@Override
 	public void tick() {
 		x += speedX;
@@ -46,6 +62,7 @@ public class BasicEnemy extends GameObject{
 					speedY = (rand.nextInt(4 - -4) + -4);
 				}
 			}
+			//Collision effects on enemy
 			if(tempObject.getID() == ID.Attack) {
 				if(getBounds().intersects(tempObject.getBounds())) {
 					hp -= 25;
@@ -54,7 +71,6 @@ public class BasicEnemy extends GameObject{
 				}
 			}
 			if(tempObject.getID() == ID.Lava) {
-
 				if(getBounds().intersects(tempObject.getBounds()) && (tempObject.getID() == ID.Lava)) {
 					hp -= 1;
 				
@@ -63,19 +79,27 @@ public class BasicEnemy extends GameObject{
 		}
 		if(hp <= 0) handler.removeObject(this);
 	}
-
+	
+	/**
+	 * render enemy image
+	 */
 	@Override
 	public void render(Graphics g) {
-		//g.setColor(Color.yellow);
-		//g.fillRect(x, y, 32, 32);
 		g.drawImage(Render.enemyImage,x,y,32,32, null);
 	}
 
+	/**
+	 * Add enemy hitbox
+	 */
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle(x ,y ,40,40);
 	}
 	
+	/**
+	 * Add second hit box for enemy AI pathing
+	 * @return rectangle for hitbox
+	 */
 	public Rectangle getBoundsWall() {
 		return new Rectangle(x - 16,y - 16,64,64);
 	}
