@@ -16,13 +16,14 @@ public class Game extends Canvas implements Runnable{
 
 	//Window Size settings
 	public static final int WIDTH = 640, HEIGHT = 512;
-	
+
 	/**
 	 * Variables to hold all of the important game functions
 	 * Such as the handler, thread, player hub, running status,
 	 * and images and sprite sheets to load in at start of game.
 	 */
 	private boolean running = false;
+	private static Game game;
 	private Handler handler;
 	private Thread thread;
 	private HUD hud;
@@ -31,13 +32,16 @@ public class Game extends Canvas implements Runnable{
 	private BufferedImage spriteSheet = null;
 	private BufferedImage floor = null;
 	private BufferedImage level = null;
+	public static boolean start = false;
+	public static boolean restart = true;
+
 
 
 	/**
 	 * Game object constructed
 	 */
 	public Game() {
-		
+
 		//The order that these load in is very important
 		Render.load();
 		handler = new Handler();
@@ -51,7 +55,7 @@ public class Game extends Canvas implements Runnable{
 		hud = new HUD();
 		gameScreen = new GameScreen();
 		this.addKeyListener(new KeyInput(handler, ss));
-		
+
 		//Start Game
 		start();
 	}
@@ -64,7 +68,37 @@ public class Game extends Canvas implements Runnable{
 		thread.start();
 		running = true;
 	}
+	public void restart() {
+		Render.load();
+		handler = new Handler();
+		//new Window(WIDTH, HEIGHT, "Dungeon Crawler", this);
+		BufferedImageLoader loader = new BufferedImageLoader();
+		level = loader.loadImage("/Test2.png");
+		spriteSheet = loader.loadImage("/BlocksNew1.png");
+		ss = new SpriteSheet(spriteSheet);
+		floor = ss.grabImage(1, 1, 32, 32);
+		loadLevel(level);
+		hud = new HUD();
+		HUD.HEALTH = 100;
+		gameScreen = new GameScreen();
+		this.addKeyListener(new KeyInput(handler, ss));
 
+	}
+	
+	/**
+	 * This function checks for the game to restart and restarts the game.	
+	 */
+	public static void checkForRestart(){
+		//Always run loop checking for restart
+		//System.out.println(restart);
+		if (restart == true) {
+			
+			Game.start = false;
+			restart = false;
+			KeyInput.pause = false;
+			game.restart();
+		}
+	}
 	/**
 	 * Stop Game
 	 */
@@ -98,9 +132,11 @@ public class Game extends Canvas implements Runnable{
 				delta--;
 				updates++;
 				//Used for pause and death screen
-				if ((HUD.HEALTH != 0) && (KeyInput.pause == false) && (Launch.start == true)) {
-  					tick();
-  				}	
+				if ((HUD.HEALTH != 0) && (KeyInput.pause == false) && (Game.start == true)) {
+					tick();
+				}	
+				checkForRestart();
+
 			}
 			if(running) {
 				render();
@@ -112,7 +148,7 @@ public class Game extends Canvas implements Runnable{
 				System.out.println("FPS: "+ frames + " Updates: " + updates);
 				frames = 0;
 				updates =0;
-			
+
 			}
 		}
 		//Stop the Game
@@ -139,16 +175,16 @@ public class Game extends Canvas implements Runnable{
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		
+
 		//Code between these comment lines controls what we load into the window
 		///////////////////////////////////////
-		
+
 		for(int xx = 0; xx < (30*72); xx += 32) {
 			for(int yy = 0; yy < (30*72); yy += 32) {
 				g.drawImage(floor, xx, yy, null);
 			}
 		}
-		
+
 		handler.render(g);
 		hud.render(g);
 		gameScreen.startScreen(g);
@@ -157,7 +193,7 @@ public class Game extends Canvas implements Runnable{
 		g.dispose();
 		bs.show();
 	}
-	
+
 	/**
 	 * Method to make sure player stays within room
 	 * @param var player movement
@@ -172,13 +208,13 @@ public class Game extends Canvas implements Runnable{
 		}else if(var <= min) {
 			var = min;
 			return var;
-			
+
 		}else {
 			return var;
 		}
 	}
 
-	
+
 	/**
 	 * Load in the game level objects
 	 * @param image used for mapping the game level
@@ -186,7 +222,7 @@ public class Game extends Canvas implements Runnable{
 	private void loadLevel(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
-		
+
 		for(int xx = 0; xx < width; xx++) {
 			for(int yy = 0; yy < height; yy++) {
 				int pixel = image.getRGB(xx, yy);
@@ -211,5 +247,9 @@ public class Game extends Canvas implements Runnable{
 				//////////////////////////////////////////////////////////
 			}
 		}
+	}
+	public static void main(String args[]) {
+		//Start new launch and game
+		game = new Game();
 	}
 }

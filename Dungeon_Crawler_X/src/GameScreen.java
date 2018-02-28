@@ -12,6 +12,7 @@ public class GameScreen{
 	 */
 	private Handler handler;
 	public char lastKey = 'd';
+	public int count = 0;
 
 	/**
 	 * Controls the start screen
@@ -21,18 +22,18 @@ public class GameScreen{
 		/**
 		 * Controls the start screen
 		 */
-		if (Launch.start == false) {
+		if (Game.start == false) {
 			//Image of start selected
 			g.drawImage(Render.gameStart,0,0,637,485, null);
 			if(KeyInput.space == true) {
-				Launch.start = true;
+				Game.start = true;
 			}
 
 			if(KeyInput.up == true){
 				g.drawImage(Render.gameStart,0,0,637,485, null);
 
 				if(KeyInput.space == true) {
-					Launch.start = true;
+					Game.start = true;
 				}
 			}
 			//Image of quite selected
@@ -54,11 +55,13 @@ public class GameScreen{
 		 * Controls the pause screen controls
 		 */
 		if (KeyInput.pause == true) {
-			if(KeyInput.space == true) {
+			g.drawImage(Render.pauseQuit,0,0,637,485, null);
+			if(KeyInput.space == true && count < 2) {
 				System.exit(1);
 			}
 
 			if(KeyInput.up == true) {
+				count++;
 				g.drawImage(Render.pauseQuit,0,0,637,485, null);
 
 				if(KeyInput.space == true) {
@@ -67,9 +70,10 @@ public class GameScreen{
 			}
 
 			if (KeyInput.down == true){
+				count++;
 				g.drawImage(Render.pauseRestart,0,0,637,485, null);
 				if(KeyInput.space == true) {
-					Launch.restart = true;
+					Game.restart = true;
 				}
 			}
 		}
@@ -92,7 +96,7 @@ public class GameScreen{
 				g.drawImage(Render.gameRestart,0,0,637,485, null);
 				//newGame
 				if(KeyInput.space == true) {
-					Launch.restart = true;
+					Game.restart = true;
 				}
 			}
 		}

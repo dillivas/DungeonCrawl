@@ -13,14 +13,15 @@ public class HUD {
 	
 	//Move Health to player and displaye health and mana in game function. Should stop null pointer
 	private GameObject gameObject;
-	 
 	 public static int HEALTH = 100;
 	 
 	 /**
 	  * Update player health bar on tick
 	  */
 	 public void tick() {
+		 System.out.println();
 		  HEALTH = Game.clamp(HEALTH,0,100);
+		  //System.out.println(HEALTH);
 	 }
 	 
 	 /**
